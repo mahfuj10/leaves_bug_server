@@ -1,13 +1,21 @@
 const admin = require('firebase-admin');
 
-// Initialize Firebase Admin SDK with service account credentials
-const serviceAccount = require('../../service-account.json'); // Replace with your service account file path
+const firebaseConfig = {
+    type: process.env.TYPE,
+    projectId: process.env.PROJECT_ID,
+    privateKeyId: process.env.PRIVATE_KEY_ID,
+    privateKey: process.env.PRIVATE_KEY.replace(/\\n/g, '\n'),
+    clientEmail: process.env.CLIENT_EMAIL,
+    clientId: process.env.CLIENT_ID,
+    authUri: process.env.AUTH_URI,
+    tokenUri: process.env.TOKEN_URI,
+    authProviderX509CertUrl: process.env.AUTH_PROVIDER_CERT_URL,
+    clientX509CertUrl: process.env.CLIENT_CERT_URL,
+  };
+
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: 'https://leavesbug-a23a5.firebaseio.com', // Replace with your Firebase database URL
+  credential: admin.credential.cert(firebaseConfig),
+  databaseURL: process.env.FIREBASE_DB_URL
 });
 
-// Access Firebase services using the admin SDK
-const firestore = admin.firestore();
-const auth = admin.auth();
 module.exports = admin;

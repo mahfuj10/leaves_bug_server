@@ -43,7 +43,7 @@ app.use('/user', userRoute)
  
 var ipMiddleware = function(req, res, next) {
     var clientIp = requestIp.getClientIp(req); // on localhost > 127.0.0.1
-    next();
+    // next();
 };
 app.get('/', (req, res) => {
 //     const coords = getLatitudeLongitude('27.147.176.58');

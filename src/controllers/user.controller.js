@@ -2,8 +2,6 @@ const User = require('../models/user.model');
 const admin = require('../config/firebase');
 const { sendEmailWithNodeMailer } = require('../services/email.service');
 
-
-
  
  const create = async(req, res, next) => {
     try {
