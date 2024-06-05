@@ -14,8 +14,7 @@ var locationSchema = new mongoose.Schema({
   }
 }, {
   _id: false
-}); // Disable automatic generation of _id for this subdocument schema
-
+});
 var userSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -37,18 +36,27 @@ var userSchema = new mongoose.Schema({
     type: String,
     "default": null
   },
-  projectJoined: {
-    type: [String],
+  teamJoined: {
+    type: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Team'
+    }],
     "default": []
   },
-  projectInvited: {
-    type: [String],
+  teamInvited: {
+    type: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Team'
+    }],
     "default": []
   },
   location: {
     type: locationSchema,
     required: false
   }
+}, {
+  versionKey: false,
+  timestamps: true
 });
 var User = mongoose.model('user', userSchema);
 module.exports = User;
