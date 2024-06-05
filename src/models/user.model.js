@@ -11,7 +11,7 @@ const locationSchema = new mongoose.Schema({
         default: 0,
         required: false
     }
-}, { _id: false }); // Disable automatic generation of _id for this subdocument schema
+}, { _id: false });
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -34,18 +34,27 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: null
     },
-    projectJoined: {
-        type: [String],
+    teamJoined: {
+        type: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Team'
+        }],
         default: []
     },
-    projectInvited: {
-        type: [String],
+    teamInvited: {
+        type: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Team'
+        }],
         default: []
     },
     location: {
         type: locationSchema,
         required: false
     }
+}, {
+    versionKey: false,
+    timestamps: true
 });
 
 const User = mongoose.model('user', userSchema);

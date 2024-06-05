@@ -1,7 +1,8 @@
 const User = require('../models/user.model');
 const admin = require('../config/firebase');
+const moongose = require('mongoose')
 const { sendEmailWithNodeMailer } = require('../services/email.service');
-
+const { getById } = require('../services/user.service');
  
  const create = async(req, res, next) => {
     try {
@@ -15,18 +16,33 @@ const { sendEmailWithNodeMailer } = require('../services/email.service');
         return next(err)
     }
 };
+ 
+const update = async(req, res, next) => {
+    try {
+      const body = req.body;
+      const id = new moongose.Types.ObjectId(req.query.id)
+
+      await User.findByIdAndUpdate(id, body);
+
+      const user = await getById(id, 'id')
+
+      return res.status(200).send(user)
+    }catch(err){
+      return next(err)
+    }
+};
 
 
 const check_user = async(req, res, next) => {
     try {
         const { email } = req.query;
          
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ email })
 
         if (user) {
-            return res.json({ exists: true });
+            return res.json({ exists: true, user });
         } else {
-            return res.json({ exists: false });
+            return res.json({ exists: false, user: null });
         }
     } catch (error) {
         return res.status(500).json({ error: 'Internal server error' });
@@ -37,7 +53,7 @@ const getUserById = async(req, res, next) => {
     try {
         const { uid } = req.query;
 
-        const user = await User.findOne({ uid });
+        const user = await getById(uid)
 
         return res.status(200).send(user)
     } catch (error) {
@@ -115,9 +131,24 @@ const resetPassword = async(req, res, next) => {
     }
 };
 
+const refreshToken = async(req, res, next) => {
+  try {
+      const { uid } = req.query;
+
+      const userRecord = await admin.auth().getUserz(uid);
+
+      return res.status(200).send(userRecord.refreshToken)
+  } catch (error) {
+      console.log(error);
+      return res.status(500).json({ error: 'Internal server error' });
+  }
+}; 
+
 module.exports = {
     create,
     check_user,
     getUserById,
-    resetPassword
+    resetPassword,
+    refreshToken,
+    update
 };
