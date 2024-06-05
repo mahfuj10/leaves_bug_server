@@ -3,7 +3,6 @@ const Task = require("../models/task.model");
 const Team = require("../models/team.model");
 const User = require("../models/user.model");
 const { getTeamById } = require("../services/team.service");
-const { getIoInstance } = require("../config/socket");
 
 const create = async(req, res, next) => {
     try {

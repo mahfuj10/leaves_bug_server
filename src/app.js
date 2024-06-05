@@ -18,6 +18,11 @@ app.use(cors());
 // initialize socket.io
 initializeSocket(server);
 
+app.use((req, res, next) => {
+    console.log(`${req.method} ${req.url}`);
+    next();
+});
+
 // Routes
 const emailRoute = require('./routes/email.route');
 const userRoute = require('./routes/user.route');
@@ -37,6 +42,10 @@ app.use('/chat', chatRoute)
 app.use('/whiteboard', whiteboardRoute)
 app.use('/notes', notesRoute)
 // app.use('/api', routes);
+
+app.use((req, res, next) => {
+    res.status(404).send('Route not found');
+});
 
 async function run() {
     try {
