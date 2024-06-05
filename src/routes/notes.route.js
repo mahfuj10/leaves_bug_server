@@ -3,7 +3,7 @@ const notesController = require('../controllers/notes.controller');
 
 const router = express.Router();
 
-router.get('', notesController.get);
+router.get('/get', notesController.get);
 router.post('/create', notesController.create);
 router.put('/update', notesController.update);
 router.delete('/delete', notesController.delete_);

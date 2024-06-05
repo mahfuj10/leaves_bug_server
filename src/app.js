@@ -19,24 +19,7 @@ app.use(cors());
 initializeSocket(server);
 
 // Routes
-const emailRoute = require('./routes/email.route');
-const userRoute = require('./routes/user.route');
-const teamRoute = require('./routes/team.route');
-const projectRoute = require('./routes/project.route');
-const taskRoute = require('./routes/task.route');
-const chatRoute = require('./routes/chat.route');
-const whiteboardRoute = require('./routes/whiteboard.route');
-const notesRoute = require('./routes/notes.route');
-
-app.use('/email', emailRoute)
-app.use('/user', userRoute)
-app.use('/team', teamRoute)
-app.use('/project', projectRoute)
-app.use('/task', taskRoute)
-app.use('/chat', chatRoute)
-app.use('/whiteboard', whiteboardRoute)
-app.use('/notes', notesRoute)
-// app.use('/api', routes);
+app.use('/api', routes);
 
 async function run() {
     try {

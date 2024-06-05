@@ -5,7 +5,7 @@ const projectController = require('../controllers/project.controller');
 const router = express.Router();
 
 router.post('/create', projectController.create);
-router.get('', projectController.getById);
+router.get('/get', projectController.getById);
 router.put('/update', projectController.update);
 router.put('/update_sprint', projectController.update_sprint);
 router.delete('/delete', projectController.delete_project);

@@ -4,6 +4,6 @@ const whiteboardController = require('../controllers/whiteboard.controller');
 const router = express.Router();
 
 router.post('/save', whiteboardController.save);
-router.get('', whiteboardController.get);
+router.get('/get', whiteboardController.get);
 
 module.exports = router;
