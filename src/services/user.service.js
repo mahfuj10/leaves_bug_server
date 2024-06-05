@@ -15,10 +15,15 @@ const getById = async (id, filter = 'uid') => {
         .populate({
           path: 'teamJoined',
           select: 'name description members projects logo createor',
-          populate: {
-            path: 'createor',
-            select: '_id email uid photoURL name'
-          }
+          populate: [
+              {
+                  path: 'projects'
+              },
+              {
+                  path: 'createor',
+                  select: '_id email uid photoURL name'
+              }
+          ]
        })
         .populate({
           path: 'teamInvited',
