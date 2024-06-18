@@ -90,7 +90,6 @@ function initializeSocket(server) {
       io.to(roomId).emit('chat-created', data);
     });
     
-    
     socket.on('note-created', (data) => {
       socket.broadcast.to(roomId).emit('note-created', data);
     });
@@ -109,6 +108,15 @@ function initializeSocket(server) {
       if(clientSocket){
         clientSocket.emit('user-updated', data)
       }
+    });
+
+    socket.on('new-comment', (data) => {
+      console.log('newcomment', data);
+      socket.broadcast.to(roomId).emit('new-comment', data);
+    });
+
+    socket.on('delete-comment', (data) => {
+      socket.broadcast.to(roomId).emit('delete-comment', data);
     });
 
     socket.on('disconnect', () => {
