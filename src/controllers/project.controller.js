@@ -204,6 +204,27 @@ const delete_project = async(req, res, next) => {
     }
 };
 
+const getByCreator = async(req, res, next) => {
+    try {
+        const creatorId = req.query.id;
+        const search = req.query.search
+
+        const searchQuery = { creator: creatorId }
+
+        if(search){
+           searchQuery.project_name = { $regex: search, $options: 'i' };
+        }
+        
+        const projects = await Project.find(searchQuery)
+                         .populate('team_id')
+
+        return res.status(200).send(projects)
+    }catch(err){
+        console.log(err);
+        return next(err)
+    }
+};
+
 
 module.exports = {
     create,
@@ -213,5 +234,6 @@ module.exports = {
     delete_project,
     add_task_into_sprint,
     addSprint,
-    deleteSprint
+    deleteSprint,
+    getByCreator
 };

@@ -1,4 +1,3 @@
-const { getIoInstance } = require("../config/socket");
 const Task = require("../models/task.model");
 
 const create = async(req, res, next) => {
@@ -19,6 +18,36 @@ const get = async(req, res, next) => {
         const task = await Task.findById(req.query.id)
 
         return res.status(200).send(task)
+    }catch(err){
+        return next(err)
+    }
+};
+
+const getByCreator = async(req, res, next) => {
+    try {
+        const creatorId = req.query.id;
+        const search = req.query.search;
+        const page = parseInt(req.query.page) || 1;
+        const limit = 3;
+
+        const searchQuery = { createor: creatorId }
+
+        if(search){
+           searchQuery.title = { $regex: search, $options: 'i' };
+        }
+
+        const count = await Task.countDocuments(searchQuery)
+        
+        const tasks = await Task.find(searchQuery)
+                      .skip((page - 1) * limit)
+                      .limit(limit);
+
+        return res.status(200).send({
+            tasks,
+            count,
+            currentPage: page,
+            totalPages: Math.ceil(count / limit),
+        })
     }catch(err){
         return next(err)
     }
@@ -52,5 +81,6 @@ module.exports = {
     create,
     get,
     update,
-    delete_
+    delete_,
+    getByCreator
 }

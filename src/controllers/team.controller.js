@@ -42,6 +42,25 @@ const update = async(req, res, next) => {
     }
 };
 
+const getTeamByCreator = async(req, res, next) => {
+    try {
+        const creatorId = req.query.id;
+        const search = req.query.search
+
+        const searchQuery = { createor: creatorId }
+
+        if(search){
+           searchQuery.name = { $regex: search, $options: 'i' };
+        }
+        
+        const teams = await Team.find(searchQuery)
+
+        return res.status(200).send(teams)
+    }catch(err){
+        return next(err)
+    }
+};
+
 const deleteTeamAndReferences = async(req, res, next) => {
     try {
     
@@ -84,5 +103,6 @@ module.exports = {
     create,
     getById,
     update,
-    deleteTeamAndReferences
+    deleteTeamAndReferences,
+    getTeamByCreator
 };
