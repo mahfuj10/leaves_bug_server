@@ -40,7 +40,8 @@ const getByCreator = async(req, res, next) => {
         
         const tasks = await Task.find(searchQuery)
                       .skip((page - 1) * limit)
-                      .limit(limit);
+                      .limit(limit)
+                      .populate('assigns createor')
 
         return res.status(200).send({
             tasks,
