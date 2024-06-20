@@ -16,6 +16,7 @@ const create = async(req, res, next) => {
 const get = async(req, res, next) => {
     try {
         const task = await Task.findById(req.query.id)
+                     .populate('createor assigns')
 
         return res.status(200).send(task)
     }catch(err){
@@ -59,6 +60,7 @@ const update = async(req, res, next) => {
         await Task.findByIdAndUpdate(req.query.id, req.body)
 
         const task = await Task.findById(req.query.id)
+                     .populate('assigns createor')
 
         return res.status(200).send(task)
     }catch(err){
