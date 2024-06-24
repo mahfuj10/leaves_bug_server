@@ -28,6 +28,7 @@ const chatRoute = require('./routes/chat.route');
 const whiteboardRoute = require('./routes/whiteboard.route');
 const notesRoute = require('./routes/notes.route');
 const commentRoute = require('./routes/comment.route');
+const notificationRoute = require('./routes/notification.route');
 
 app.use('/email', emailRoute)
 app.use('/user', userRoute)
@@ -38,6 +39,7 @@ app.use('/chat', chatRoute)
 app.use('/whiteboard', whiteboardRoute)
 app.use('/notes', notesRoute)
 app.use('/comment', commentRoute)
+app.use('/notification', notificationRoute)
 // app.use('/api', routes);
 
 async function run() {

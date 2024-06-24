@@ -119,6 +119,10 @@ function initializeSocket(server) {
       socket.broadcast.to(roomId).emit('delete-comment', data);
     });
 
+    socket.on('send-notification', (data) => {
+      io.to(roomId).emit('send-notification', data);
+    });
+
     socket.on('disconnect', () => {
       console.log('User disconnected');
       const disconnectedUserId = Object.keys(clients).find(
