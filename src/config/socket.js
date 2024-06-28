@@ -123,6 +123,10 @@ function initializeSocket(server) {
       io.to(roomId).emit('send-notification', data);
     });
 
+    socket.on('delete-chat', (data) => {
+      io.to(roomId).emit('delete-chat', data);
+    });
+
     socket.on('disconnect', () => {
       console.log('User disconnected');
       const disconnectedUserId = Object.keys(clients).find(

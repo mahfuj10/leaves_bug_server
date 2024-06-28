@@ -10,8 +10,9 @@ const chatSchema = new mongoose.Schema({
         ref: 'Team',
         required: true
     },
-    creatorId: {
-        type: String,
+    creator: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user',
         required: true
     },
     participants: [{

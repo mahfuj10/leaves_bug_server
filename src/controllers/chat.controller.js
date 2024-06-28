@@ -24,9 +24,22 @@ const get = async(req, res, next) => {
         }
         
         const chat = await Chat.find(query)
-                     .populate('participants');
+                     .populate('participants creator');
 
         return res.status(200).send(chat)
+    }catch(err){
+        return next(err)
+    }
+};
+
+const delete_ = async(req, res, next) => {
+    try {
+        const chatId = req.query.id;
+
+        await Chat.findByIdAndDelete(chatId)
+        await Message.deleteMany({ chat: chatId })
+
+        return res.status(200).send('Deleted')
     }catch(err){
         return next(err)
     }
@@ -145,5 +158,6 @@ module.exports = {
     getMessages,
     markAllMessagesAsRead,
     updateMessage,
-    deleteMessage
+    deleteMessage,
+    delete_
 }
