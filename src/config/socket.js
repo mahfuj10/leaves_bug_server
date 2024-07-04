@@ -4,6 +4,7 @@ const socketIo = require('socket.io');
 
 let io;
 let roomId;
+let helpCenterRoomId;
 let userId;
 const clients = {};
 
@@ -24,6 +25,12 @@ function initializeSocket(server) {
       socket.join(room_id);
       roomId = room_id
       console.log(`User joined room ${roomId}`);
+    });
+    
+    socket.on('join-help-center', (room_id) => {
+      socket.join(room_id);
+      helpCenterRoomId = room_id
+      console.log(`User joined help center ${roomId}`);
     });
 
     socket.on('project_updated', (project) => {
@@ -125,6 +132,16 @@ function initializeSocket(server) {
 
     socket.on('delete-chat', (data) => {
       io.to(roomId).emit('delete-chat', data);
+    });
+
+    socket.on('send-message-to-help-center', (data) => {
+      if(!helpCenterRoomId) return
+      io.to(helpCenterRoomId).emit('send-message-to-help-center', data);
+    });
+
+    socket.on('delete-message-from-help-center', (data) => {
+      if(!helpCenterRoomId) return
+      io.to(helpCenterRoomId).emit('delete-message-from-help-center', data);
     });
 
     socket.on('disconnect', () => {

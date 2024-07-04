@@ -29,6 +29,7 @@ const whiteboardRoute = require('./routes/whiteboard.route');
 const notesRoute = require('./routes/notes.route');
 const commentRoute = require('./routes/comment.route');
 const notificationRoute = require('./routes/notification.route');
+const helpCenterRoute = require('./routes/help-center.route');
 
 app.use('/email', emailRoute)
 app.use('/user', userRoute)
@@ -40,6 +41,7 @@ app.use('/whiteboard', whiteboardRoute)
 app.use('/notes', notesRoute)
 app.use('/comment', commentRoute)
 app.use('/notification', notificationRoute)
+app.use('/help-center', helpCenterRoute)
 // app.use('/api', routes);
 
 async function run() {
